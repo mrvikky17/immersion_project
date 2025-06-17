@@ -1,0 +1,25 @@
+ body{
+            background: linear-gradient(to right, green,blue);
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+            color: darkblue;
+        }
+
+        p{
+            text-align: center;
+            color: blue;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+        input{
+            margin-left: 10px;
+            height:200px;
+            width:250px;
+            border: 5px solid;
+            border-image: linear-gradient(to right, green, white) 1;
+            padding: 10px;
+            background:linear-gradient(to right,green, white);
+
+        }
