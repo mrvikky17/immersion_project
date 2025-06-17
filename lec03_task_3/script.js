@@ -1,38 +1,43 @@
+const btn = document.getElementById('btn');
+const tempurl = 'https://dummyjson.com/products/search?q=';
+const inp = document.getElementById('inp');
+const div = document.getElementById('container');
 
-    async function searchProducts() {
-      const query = document.getElementById("searchInput").value.trim();
-      const container = document.getElementById("productsContainer");
-      container.innerHTML = "";
+btn.addEventListener('click', () => {
+    const url = tempurl + inp.value;
 
-      if (!query) {
-        alert("Search field cannot be empty.");
-        return;
-      }
+    // Clear previous results
+    div.innerHTML = '';
 
-      try {
-        const response = await fetch(`https://dummyjson.com/products`);
-        const data = await response.json();
+    fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+            for (let product of data.products) {
+                console.log(product);
 
-        if (data.products.length === 0) {
-          container.innerHTML = "<p>No products found.</p>";
-          return;
-        }
+                const productitems = document.createElement('div');
+                productitems.style.border = "1px solid #ccc";
+                productitems.style.margin = "10px";
+                productitems.style.padding = "10px";
 
-        data.products.forEach(product => {
-          const card = document.createElement("div");
-          card.className = "product-card";
+                const h2 = document.createElement('h2');
+                h2.innerText = product.title;
 
-          card.innerHTML = `
-            <img src="${product.thumbnail}" alt="${product.title}" />
-            <div class="product-title">${product.title}</div>
-            <div class="product-price">$${product.price}</div>
-          `;
+                const p = document.createElement('p');
+                p.innerText = product.description;
 
-          container.appendChild(card);
+                const img = document.createElement('img');
+                img.src = product.thumbnail;
+                img.style.width = "150px";
+
+                productitems.appendChild(h2);
+                productitems.appendChild(p);
+                productitems.appendChild(img);
+
+                div.appendChild(productitems); // <-- append to the container
+            }
+        })
+        .catch(err => {
+            console.error("Error fetching data:", err);
         });
-      } catch (error) {
-        console.error("Error fetching products:", error);
-        container.innerHTML = "<p>Failed to fetch products. Try again later.</p>";
-      }
-    }
- 
+});
